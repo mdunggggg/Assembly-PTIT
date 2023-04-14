@@ -23,13 +23,6 @@ Main Proc
     mov ah, 4ch
     int 21h
    
-    
-   
 Main endp 
-
-          
-            
-          
-          
 
 END MAIN
