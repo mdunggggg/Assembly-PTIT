@@ -16,7 +16,7 @@
     addressA dw ?
     addressB dw ?
     base_dec dw 10 
-    str3 db 13, 10, 'The number of occurrences of string B in A is: $' 
+    str3 db 13, 10, 'The position of B in A: $' 
 .code
 Main proc 
     mov ax, @data
@@ -45,7 +45,7 @@ Main proc
     mov n, ax
     
     mov ah, 9
-    lea dx, crlf
+    lea dx, str3
     int 21h
     
     lea si, strA + 2
@@ -57,11 +57,12 @@ Main proc
     mov ax, n 
     
     mov bx, 0
-   
+    ; ax store n
+    ; bx store m
 LAP:
     cmp bx, m 
     je COMPLETE
-    push bx 
+    push bx
     mov j, 0
     LAP2: 
         cmp ax , j
@@ -73,6 +74,7 @@ LAP:
         add si, addressA
         cmp [si], dl
         je CONTINUE
+        
         pop bx
         inc bx
         jmp LAP
@@ -83,17 +85,29 @@ LAP:
         jmp LAP2   
     
     done:
-        inc count
-        pop bx
+       
+        
+        pop bx 
+        mov count, 0
+        mov count, bx
+        call Output
+        
+        push ax
+        push dx
+        
+        mov dl, ' '
+        mov ah, 2
+        int 21h
+        
+        pop dx
+        pop ax
+        
+        
+        
         inc bx
         jmp LAP
      
 COMPLETE:     
-    mov ah, 9
-    lea dx, str3
-    int 21h
-    call Output
-    
     
     mov ah, 4ch
     int 21h
@@ -101,6 +115,11 @@ COMPLETE:
     
 Main endp 
 Output Proc
+   push ax
+   push bx
+   push cx
+   push dx 
+    
    mov ax, count
    mov cx, 0
 Divide:
@@ -118,7 +137,13 @@ show:
     int 21h
     dec cx
     cmp cx, 0
-    jne show
+    jne show 
+    
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    
 ret
 
 end main
