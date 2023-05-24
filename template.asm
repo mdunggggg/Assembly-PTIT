@@ -20,7 +20,7 @@ MAIN ENDP
 NEWLINE PROC
             
     MOV AH, 9
-    LEA SI, CRLF
+    LEA DX, CRLF
     INT 21H
     RET
             
