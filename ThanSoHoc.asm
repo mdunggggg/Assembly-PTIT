@@ -1,9 +1,9 @@
 .MODEL SMALL
 .STACK 100H
 .DATA
-    CRLF db 13, 10, '$' 
+    CRLF DB 13, 10, '$' 
     
-    BASE_DEC dw 10
+    BASE_DEC DW 10
     
    
     MSG_A DB "SO LINH HON: $"
@@ -75,7 +75,9 @@ MAIN PROC
        ; MOV NUMBER, BX
        ; CMP BX, 9       
         ;JG RUT_GON_LOOP  
-        
+    
+    
+    ; IN TÊN
     MOV AH, 9
     LEA DX, NAME_AND_BIRTH
     INT 21H 
@@ -83,6 +85,7 @@ MAIN PROC
     CALL NEWLINE
     CALL NEWLINE               
     
+    ; IN SỐ LINH HỒN
     MOV AH, 9
     LEA DX, MSG_A
     INT 21H
@@ -95,6 +98,7 @@ MAIN PROC
     CALL NEWLINE
     CALL NEWLINE
     
+    ; IN SỐ NHÂN CÁCH
     MOV AH, 9
     LEA DX, MSG_B
     INT 21H
@@ -106,6 +110,7 @@ MAIN PROC
     CALL NEWLINE
     CALL NEWLINE
     
+    ; IN SỐ ĐƯỜNG ĐỜI
     MOV AH, 9
     LEA DX, MSG_C
     INT 21H
@@ -118,6 +123,7 @@ MAIN PROC
     CALL NEWLINE
     CALL NEWLINE
     
+    ; IN SỐ THÁI ĐỘ
     MOV AH, 9
     LEA DX, MSG_D
     INT 21H
@@ -125,14 +131,7 @@ MAIN PROC
     MOV BX, SO_THAI_DO
     MOV NUMBER, BX
     CALL OUTPUT
-       
-        
-        
-    
-    
-    
-    
-        
+     
     MOV AH, 4CH
     INT 21H
    
@@ -173,7 +172,7 @@ OUTPUT PROC
     MOV CX, 0
     DIVIDE: 
         MOV DX, 0
-        DIV base_dec
+        DIV BASE_DEC
         PUSH DX
         INC CX
         CMP AX, 0
