@@ -10,18 +10,18 @@
     MSG_B DB "SO NHAN CACH: $"
     MSG_C DB "SO DUONG DOI: $"
     MSG_D DB "SO THAI DO: $"
-       
-    NAME_AND_BIRTH DB "NGUYEN THI NGOC THUY: 26/10/2003$"  ; SUA
+                                                      
+    NAME_AND_BIRTH DB "HOANG MANH DUNG: 25/07/2003$"  
    
-    FULL_NAME DB "NGUYENTHINGOCTHUY$"  ; SUA
+    FULL_NAME DB "HOANGMANHDUNG$"  
     
-    COUNT_NAME DW 17     ; SUA
+    COUNT_NAME DW 13     
     
-    NGUYEN_AM DB "UEIOU$"  ; SUA
+    NGUYEN_AM DB "OAAU$"  
     
-    COUNT_NGUYEN_AM DW 5   ; SUA  
+    COUNT_NGUYEN_AM DW 4    
     
-    BIRTH_DAY DW "26/10/2003"  ; SUA
+    BIRTH_DAY DW "25/07/2003"  
     
     SUM_NAME DW 0 
     
@@ -70,15 +70,34 @@ MAIN PROC
     
     
     
-    ; IN TÊN
+    ; IN TEN
     MOV AH, 9
     LEA DX, NAME_AND_BIRTH
     INT 21H 
     
     CALL NEWLINE
-    CALL NEWLINE               
+    CALL NEWLINE 
     
-    ; IN SO LINH HON
+    MOV BX, SUM_NAME
+    CALL RUT_GON_LOOP
+    MOV AX, BX
+    MOV DX, 0
+    MOV BX, 4
+    DIV BX
+    CMP DX, 0
+    JE LABEL_LINH_HON
+    CMP DX, 1
+    JE LABEL_NHAN_CACH
+    CMP DX, 2
+    JE LABEL_DUONG_DOI
+    CMP DX, 3
+    JE LABEL_THAI_DO 
+                  
+    
+    ; IN SO LINH HON  
+    
+    
+ LABEL_LINH_HON:
     MOV AH, 9
     LEA DX, MSG_A
     INT 21H
@@ -91,8 +110,11 @@ MAIN PROC
     
     CALL NEWLINE
     CALL NEWLINE
+    JMP LABEL_END
     
     ; IN SO NHÂN CÁCH
+    
+LABEL_NHAN_CACH:
     MOV AH, 9
     LEA DX, MSG_B
     INT 21H
@@ -104,8 +126,11 @@ MAIN PROC
     
     CALL NEWLINE
     CALL NEWLINE
+    JMP LABEL_END
     
-    ; IN SO ÐUONG ÐOI
+    ; IN SO DUONG DOI 
+    
+LABEL_DUONG_DOI:
     MOV AH, 9
     LEA DX, MSG_C
     INT 21H
@@ -118,8 +143,11 @@ MAIN PROC
     
     CALL NEWLINE
     CALL NEWLINE
+    JMP LABEL_END
     
-    ; IN SO THÁI ÐO
+    ; IN SO THAI DO
+             
+LABEL_THAI_DO:
     MOV AH, 9
     LEA DX, MSG_D
     INT 21H
@@ -128,7 +156,9 @@ MAIN PROC
     CALL RUT_GON_LOOP
     MOV NUMBER, BX
     CALL OUTPUT
-     
+    JMP LABEL_END
+    
+LABEL_END:     
     MOV AH, 4CH
     INT 21H
    
