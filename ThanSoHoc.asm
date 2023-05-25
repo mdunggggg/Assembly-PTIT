@@ -11,17 +11,17 @@
     MSG_C DB "SO DUONG DOI: $"
     MSG_D DB "SO THAI DO: $"
        
-    NAME_AND_BIRTH DB "PHAM THI LINH MY: 15/12/2003$"  ; SUA
+    NAME_AND_BIRTH DB "NGUYEN THI NGOC THUY: 26/10/2003$"  ; SUA
    
-    FULL_NAME DB "PHAMTHILINHMY$"  ; SUA
+    FULL_NAME DB "NGUYENTHINGOCTHUY$"  ; SUA
     
-    COUNT_NAME DW 13     ; SUA
+    COUNT_NAME DW 17     ; SUA
     
-    NGUYEN_AM DB "AIIY$"  ; SUA
+    NGUYEN_AM DB "UEIOU$"  ; SUA
     
-    COUNT_NGUYEN_AM DW 4   ; SUA  
+    COUNT_NGUYEN_AM DW 5   ; SUA  
     
-    BIRTH_DAY DW "15/12/2003"  ; SUA
+    BIRTH_DAY DW "26/10/2003"  ; SUA
     
     SUM_NAME DW 0 
     
@@ -65,16 +65,9 @@ MAIN PROC
     
     
     
-    
     MOV BX, SUM_NAME 
     MOV NUMBER, BX  
     
-    
-   ; RUT_GON_LOOP:
-       ; CALL RUT_GON
-       ; MOV NUMBER, BX
-       ; CMP BX, 9       
-        ;JG RUT_GON_LOOP  
     
     
     ; IN TÊN
@@ -85,37 +78,40 @@ MAIN PROC
     CALL NEWLINE
     CALL NEWLINE               
     
-    ; IN SỐ LINH HỒN
+    ; IN SO LINH HON
     MOV AH, 9
     LEA DX, MSG_A
     INT 21H
     
     
     MOV BX, SUM_NGUYEN_AM
+    CALL RUT_GON_LOOP
     MOV NUMBER, BX
     CALL OUTPUT
     
     CALL NEWLINE
     CALL NEWLINE
     
-    ; IN SỐ NHÂN CÁCH
+    ; IN SO NHÂN CÁCH
     MOV AH, 9
     LEA DX, MSG_B
     INT 21H
     
     MOV BX, SUM_PHU_AM
+    CALL RUT_GON_LOOP
     MOV NUMBER, BX
     CALL OUTPUT 
     
     CALL NEWLINE
     CALL NEWLINE
     
-    ; IN SỐ ĐƯỜNG ĐỜI
+    ; IN SO ÐUONG ÐOI
     MOV AH, 9
     LEA DX, MSG_C
     INT 21H
     
     MOV BX, SO_DUONG_DOI
+    CALL RUT_GON_LOOP
     MOV NUMBER, BX
     CALL OUTPUT
     
@@ -123,12 +119,13 @@ MAIN PROC
     CALL NEWLINE
     CALL NEWLINE
     
-    ; IN SỐ THÁI ĐỘ
+    ; IN SO THÁI ÐO
     MOV AH, 9
     LEA DX, MSG_D
     INT 21H
     
     MOV BX, SO_THAI_DO
+    CALL RUT_GON_LOOP
     MOV NUMBER, BX
     CALL OUTPUT
      
@@ -187,6 +184,16 @@ OUTPUT PROC
     RET
 
 OUTPUT ENDP
+
+RUT_GON_LOOP PROC
+    VONG_LAP:
+        CALL RUT_GON
+        MOV NUMBER, BX
+        CMP BX, 9
+        JG VONG_LAP
+    RET
+
+RUT_GON_LOOP ENDP
 
 
 SUM_NUMBER PROC
@@ -321,7 +328,7 @@ THAI_DO PROC
 THAI_DO ENDP
 
 RUT_GON PROC
-    MOV AX, NUMBER
+    MOV AX, BX
     MOV CX, 0
     MOV BX, 0
     DIVIDE_RUTGON: 
